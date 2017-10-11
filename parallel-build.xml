@@ -165,7 +165,7 @@
         <exec executable="${phpmd}" taskname="phpmd">
             <arg path="${basedir}/src" />
             <arg value="text" />
-            <arg path="${basedir}/build/parallel-phpmd.xml" />
+            <arg path="${basedir}/app/parallel-phpmd.xml" />
          </exec>
 
         <property name="phpmd.done" value="true"/>
@@ -268,7 +268,7 @@
     <target name="phpdox" depends="phploc-ci,phpcs-ci,phpmd-ci" description="Generate project documentation using phpDox">
         <exec executable="${toolsdir}phpdox">
             <arg value="--file" />
-            <arg value="${basedir}/parallel-phpdox.xml" />
+            <arg value="${basedir}/app/parallel-phpdox.xml" />
         </exec>
     </target>
 
