@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<crap_result>
+  <project/>
+  <timestamp>2017-10-11 17:24:01</timestamp>
+  <stats>
+    <name>Method Crap Stats</name>
+    <methodCount>4</methodCount>
+    <crapMethodCount>0</crapMethodCount>
+    <crapLoad>0</crapLoad>
+    <totalCrap>8</totalCrap>
+    <crapMethodPercent>0</crapMethodPercent>
+  </stats>
+  <methods>
+    <method>
+      <package>AppBundle\Controller</package>
+      <className>DefaultController</className>
+      <methodName>indexAction</methodName>
+      <methodSignature>indexAction(Request $request)</methodSignature>
+      <fullMethod>indexAction(Request $request)</fullMethod>
+      <crap>2</crap>
+      <complexity>1</complexity>
+      <coverage>0</coverage>
+      <crapLoad>0</crapLoad>
+    </method>
+    <method>
+      <package>AppBundle\Tests</package>
+      <className>ApplicationAvailabilityFunctionalTest</className>
+      <methodName>testPageIsSuccessful</methodName>
+      <methodSignature>testPageIsSuccessful($url)</methodSignature>
+      <fullMethod>testPageIsSuccessful($url)</fullMethod>
+      <crap>2</crap>
+      <complexity>1</complexity>
+      <coverage>0</coverage>
+      <crapLoad>0</crapLoad>
+    </method>
+    <method>
+      <package>AppBundle\Tests</package>
+      <className>ApplicationAvailabilityFunctionalTest</className>
+      <methodName>urlProvider</methodName>
+      <methodSignature>urlProvider()</methodSignature>
+      <fullMethod>urlProvider()</fullMethod>
+      <crap>2</crap>
+      <complexity>1</complexity>
+      <coverage>0</coverage>
+      <crapLoad>0</crapLoad>
+    </method>
+    <method>
+      <package>AppBundle\Tests\Controller</package>
+      <className>DefaultControllerTest</className>
+      <methodName>testIndex</methodName>
+      <methodSignature>testIndex()</methodSignature>
+      <fullMethod>testIndex()</fullMethod>
+      <crap>2</crap>
+      <complexity>1</complexity>
+      <coverage>0</coverage>
+      <crapLoad>0</crapLoad>
+    </method>
+  </methods>
+</crap_result>
