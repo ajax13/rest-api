@@ -9,6 +9,9 @@
     <property name="phploc"  value="phploc"/>
     <property name="phpmd"   value="phpmd"/>
     <property name="phpunit" value="phpunit"/>
+    <condition property="parallel-lint" value="${basedir}/bin/parallel-lint.bat" else="${basedir}/bin/parallel-lint">
+        <os family="windows"/>
+    </condition>
 
     <!-- Use this when the tools are located as PHARs in ${basedir}/build/tools
     <property name="pdepend" value="${basedir}/build/tools/pdepend.phar"/>
@@ -37,11 +40,11 @@
          description="Performs static analysis (executing the tools in parallel), runs the tests, and generates project documentation"/>
 
     <target name="quick-build"
-         depends="prepare,composer, lint,phpunit-no-coverage"
+         depends="prepare,composer, parallel-lint,phpunit-no-coverage"
          description="Performs a lint check and runs the tests (without generating code coverage reports)"/>
 
     <target name="static-analysis"
-         depends="lint,phploc-ci,pdepend,phpmd-ci,phpcs-ci,phpcpd-ci"
+         depends="parallel-lint,phploc-ci,pdepend,phpmd-ci,phpcs-ci,phpcpd-ci"
          description="Performs static analysis" />
 
     <!-- Adjust the threadCount attribute's value to the number of CPUs -->
@@ -52,7 +55,7 @@
                 <antcall target="pdepend"/>
                 <antcall target="phpmd-ci"/>
             </sequential>
-            <antcall target="lint"/>
+            <antcall target="parallel-lint"/>
             <antcall target="phpcpd-ci"/>
             <antcall target="phpcs-ci"/>
             <antcall target="phploc-ci"/>
@@ -82,25 +85,36 @@
         <property name="prepare.done" value="true"/>
     </target>
 
-    <target name="lint"
-         unless="lint.done"
-         description="Perform syntax check of sourcecode files">
-        <apply executable="php" taskname="lint">
-            <arg value="-l" />
-
-            <fileset dir="${basedir}/src">
-                <include name="**/*.php" />
-                <modified />
-            </fileset>
-
-            <fileset dir="${basedir}/tests">
-                <include name="**/*.php" />
-                <modified />
-            </fileset>
-        </apply>
-
-        <property name="lint.done" value="true"/>
+    <target name="parallel-lint" unless="parallel-lint.done" description="Run PHP parallel lint">
+        <exec executable="${parallel-lint}" failonerror="true">
+            <arg line="--exclude" />
+            <arg path="${basedir}/app/" />
+            <arg line="--exclude" />
+            <arg path="${basedir}/vendor/" />
+            <arg path="${basedir}" />
+        </exec>
+        <property name="parallel-lint" value="true"/>
     </target>
+
+    <!--<target name="lint"-->
+         <!--unless="lint.done"-->
+         <!--description="Perform syntax check of sourcecode files">-->
+        <!--<apply executable="php" taskname="lint">-->
+            <!--<arg value="-l" />-->
+
+            <!--<fileset dir="${basedir}/src">-->
+                <!--<include name="**/*.php" />-->
+                <!--<modified />-->
+            <!--</fileset>-->
+
+            <!--<fileset dir="${basedir}/tests">-->
+                <!--<include name="**/*.php" />-->
+                <!--<modified />-->
+            <!--</fileset>-->
+        <!--</apply>-->
+
+        <!--<property name="lint.done" value="true"/>-->
+    <!--</target>-->
 
     <target name="phploc"
          unless="phploc.done"
