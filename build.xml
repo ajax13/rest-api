@@ -9,9 +9,9 @@
     <property name="builddir" value="${workspace}/app/build" />
 
     <target name="build"
-            depends="prepare,self-update-vendors,vendors,parameters,lint,phploc,pdepend,phpcpd,phpmd-ci,phpcs-ci,phpdoc,phpunit,phpcb"/>
+            depends="prepare,self-update-vendors,vendors-install,parallel-lint,phploc,pdepend,phpcpd,phpmd-ci,phpcs-ci,phpdoc,phpunit,phpcb"/>
 
-    <target name="build-parallel" depends="prepare,lint,tools-parallel,phpunit,phpcb"/>
+    <target name="build-parallel" depends="prepare,parallel-lint,tools-parallel,phpunit,phpcb"/>
 
     <target name="tools-parallel" description="Run tools in parallel">
         <parallel threadCount="2">
@@ -43,19 +43,33 @@
         <mkdir dir="${builddir}/pdepend"/>
     </target>
 
-    <target name="lint" description="Perform syntax check of sourcecode files">
-        <apply executable="php">
-            <arg value="-l" />
-            <fileset dir="${sourcedir}">
-                <include name="**/*.php" />
-                <modified />
-            </fileset>
-            <fileset dir="${basedir}/src/">
-                <include name="**/*Test.php" />
-                <modified />
-            </fileset>
-        </apply>
+    <condition property="parallel-lint" value="${basedir}/bin/parallel-lint.bat" else="${basedir}/bin/parallel-lint">
+        <os family="windows"/>
+    </condition>
+
+    <target name="parallel-lint" description="Run PHP parallel lint">
+        <exec executable="${parallel-lint}" failonerror="true">
+            <arg line="--exclude" />
+            <arg path="${basedir}/app/" />
+            <arg line="--exclude" />
+            <arg path="${basedir}/vendor/" />
+            <arg path="${basedir}" />
+        </exec>
     </target>
+
+    <!--<target name="lint" description="Perform syntax check of sourcecode files">-->
+        <!--<apply executable="php">-->
+            <!--<arg value="-l" />-->
+            <!--<fileset dir="${sourcedir}">-->
+                <!--<include name="**/*.php" />-->
+                <!--<modified />-->
+            <!--</fileset>-->
+            <!--<fileset dir="${basedir}/src/">-->
+                <!--<include name="**/*Test.php" />-->
+                <!--<modified />-->
+            <!--</fileset>-->
+        <!--</apply>-->
+    <!--</target>-->
 
     <target name="phploc" description="Measure project size using PHPLOC">
         <exec executable="phploc">
@@ -150,19 +164,11 @@
             <arg value="self-update" />
         </exec>
     </target>
-    <target name="vendors" description="Update vendors">
+    <target name="vendors-install" description="Install vendors">
         <exec executable="php" >
             <arg value="composer.phar" />
-            <arg value="update" />
+            <arg value="install" />
         </exec>
-    </target>
-
-    <target name="parameters" description="Copy parameters">
-        <exec executable="cp" failonerror="true">
-            <arg path="app/config/parameters.jenkins.yml" />
-            <arg path="app/config/parameters.yml" />
-        </exec>
-
     </target>
 
 </project>
