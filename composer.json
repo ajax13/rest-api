@@ -29,7 +29,14 @@
         "twig/twig": "^1.0||^2.0"
     },
     "require-dev": {
+        "jakub-onderka/php-parallel-lint": "^0.9.2",
+        "phploc/phploc": "@stable",
+        "phpmd/phpmd": "@stable",
+        "phpunit/phpunit": "@stable",
+        "sebastian/phpcpd": "@stable",
+        "theseer/phpdox": "^0.10.1",
         "sensio/generator-bundle": "~3.0",
+        "squizlabs/php_codesniffer": "@stable",
         "symfony/phpunit-bridge": "~2.7"
     },
     "scripts": {
