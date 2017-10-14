@@ -24,6 +24,7 @@
         <server name="KERNEL_DIR" value="app/" />
         <ini name="memory_limit" value="2048M" />
         <ini name="xdebug.max_nesting_level" value="500" />
+        <ini name="error_reporting" value="-1" />
     </php>
 
     <filter>
