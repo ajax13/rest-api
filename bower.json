@@ -1,0 +1,18 @@
+{
+  "name": "rest-api",
+  "homepage": "https://github.com/ajax13/rest-api",
+  "authors": [
+    "ajax13 <abir.ibrahem@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
