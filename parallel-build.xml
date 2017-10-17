@@ -1,19 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="rest-api" default="full-build">
-    <!-- By default, we assume all tools to be on the $PATH or we set the $toolsdirs-->
     <property name="toolsdir" value="bin/" />
     <property name="builddir" value="${basedir}/app/build" />
     <property name="sourcedir" value="${basedir}/src" />
-    <property name="pdepend" value="pdepend"/>
-    <property name="phpcpd"  value="phpcpd"/>
-    <property name="phpcs"   value="phpcs"/>
-    <property name="phpdox"  value="phpdox"/>
-    <property name="phploc"  value="phploc"/>
-    <property name="phpmd"   value="phpmd"/>
-    <property name="phpunit" value="phpunit"/>
+
+    <!-- Use this when the tools are managed by Composer in ${basedir}/vendor/bin -->
+    <property name="pdepend" value="bin/pdepend"/>
+    <property name="phpcpd"  value="bin/phpcpd"/>
+    <property name="phpcs"   value="bin/phpcs"/>
+    <property name="phpdox"  value="bin/phpdox"/>
+    <property name="phploc"  value="bin/phploc"/>
+    <property name="phpmd"   value="bin/phpmd"/>
+    <property name="phpunit" value="bin/phpunit"/>
     <condition property="parallel-lint" value="${basedir}/bin/parallel-lint.bat" else="${basedir}/bin/parallel-lint">
         <os family="windows"/>
     </condition>
+
+    <!-- By default, we assume all tools to be on the $PATH or we set the $toolsdirs-->
+    <!--<property name="pdepend" value="pdepend"/>-->
+    <!--<property name="phpcpd"  value="phpcpd"/>-->
+    <!--<property name="phpcs"   value="phpcs"/>-->
+    <!--<property name="phpdox"  value="phpdox"/>-->
+    <!--<property name="phploc"  value="phploc"/>-->
+    <!--<property name="phpmd"   value="phpmd"/>-->
+    <!--<property name="phpunit" value="phpunit"/>-->
 
     <!-- Use this when the tools are located as PHARs in ${basedir}/build/tools
     <property name="pdepend" value="${basedir}/build/tools/pdepend.phar"/>
@@ -24,25 +34,16 @@
     <property name="phpmd"   value="${basedir}/build/tools/phpmd.phar"/>
     <property name="phpunit" value="${basedir}/build/tools/phpunit.phar"/> -->
 
-    <!-- Use this when the tools are managed by Composer in ${basedir}/vendor/bin
-    <property name="pdepend" value="${basedir}/vendor/bin/pdepend"/>
-    <property name="phpcpd"  value="${basedir}/vendor/bin/phpcpd"/>
-    <property name="phpcs"   value="${basedir}/vendor/bin/phpcs"/>
-    <property name="phpdox"  value="${basedir}/vendor/bin/phpdox"/>
-    <property name="phploc"  value="${basedir}/vendor/bin/phploc"/>
-    <property name="phpmd"   value="${basedir}/vendor/bin/phpmd"/>
-    <property name="phpunit" value="${basedir}/vendor/bin/phpunit"/> -->
-
     <target name="full-build"
-         depends="prepare, composer,static-analysis,phpunit,phpdox,-check-failure"
+         depends="prepare, composer, bower,static-analysis,phpunit,phpdox,-check-failure"
          description="Performs static analysis, runs the tests, and generates project documentation"/>
 
     <target name="full-build-parallel"
-         depends="prepare, composer,static-analysis-parallel,phpunit,phpdox,-check-failure"
+         depends="prepare, composer, bower,static-analysis-parallel,phpunit,phpdox,-check-failure"
          description="Performs static analysis (executing the tools in parallel), runs the tests, and generates project documentation"/>
 
     <target name="quick-build"
-         depends="prepare,composer,parallel-lint,phpunit-no-coverage"
+         depends="prepare,composer, bower,parallel-lint,phpunit-no-coverage"
          description="Performs a lint check and runs the tests (without generating code coverage reports)"/>
 
     <target name="static-analysis"
@@ -196,7 +197,7 @@
             <arg value="--extensions=php" />
             <arg value="--ignore=autoload.php" />
             <arg path="${sourcedir}" />
-            <arg path="${basedir}/tests" />
+            <!--<arg path="${basedir}/tests" />-->
         </exec>
 
         <property name="phpcs.done" value="true"/>
@@ -213,7 +214,7 @@
             <arg value="--extensions=php" />
             <arg value="--ignore=autoload.php" />
             <arg path="${sourcedir}" />
-            <arg path="${basedir}/tests" />
+            <!--<arg path="${basedir}/tests" />-->
         </exec>
 
         <property name="phpcs.done" value="true"/>
@@ -287,7 +288,6 @@
     <target name="composer" description="Installing composer dependencies">
         <exec executable="composer" failonerror="true">
             <arg value="install" />
-            <arg value="--dev" />
             <arg value="--prefer-dist" />
             <arg value="--no-progress" />
 
@@ -297,11 +297,11 @@
     </target>
 
     <!--if we have bower we will install it-->
-    <!--<target name="bower" description="Installing bower dependencies">-->
-        <!--<exec executable="bower" failonerror="true">-->
-            <!--<arg value="install" />-->
-        <!--</exec>-->
-    <!--</target>-->
+    <target name="bower" description="Installing bower dependencies">
+        <exec executable="bower" failonerror="true">
+            <arg value="install" />
+        </exec>
+    </target>
 
 </project>
 
