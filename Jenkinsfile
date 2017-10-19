@@ -69,5 +69,29 @@ pipeline {
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'app/build', reportFiles: 'phpmetrics.html', reportName: 'Phpmetrics report', reportTitles: ''])
             }
         }
+        
+        /** Muti Pipeline case *//
+        // If this is the master or develop branch being built then run some additional integration tests
+        /*if (["master", "develop"].contains(env.BRANCH_NAME)) {
+            stage("Test Behat") {
+                sh 'vendor/bin/behat'
+            }
+        }
+        // Exemple Create new deployment assets
+        switch (env.BRANCH_NAME) {
+            case "master":
+                stage("Code Deploy") {
+                    sh "aws deploy push --application-name My_App_Production --s3-location s3://my-app-production/build-${env.BUILD_NUMBER}.zip"
+                }
+                break
+            case "develop":
+                stage("Code Deploy") {
+                    sh "aws deploy push --application-name My_App_Staging --s3-location s3://my-app-staging/build-${env.BUILD_NUMBER}.zip"
+                }
+                break
+            default:
+                // No deployments for other branches
+                break
+        }*/
     }
 }
