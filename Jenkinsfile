@@ -87,7 +87,7 @@ pipeline {
             }
         }
         
-        /** Muti Pipeline case *//
+        /** Muti Pipeline case */
         // If this is the master or develop branch being built then run some additional integration tests
         /*if (["master", "develop"].contains(env.BRANCH_NAME)) {
             stage("Test Behat") {
