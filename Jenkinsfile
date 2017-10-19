@@ -1,3 +1,6 @@
+emailTo = "abir.test01@gmail.com"
+emailFrom = "abir.ibrahem@gmail.com"
+
 pipeline {
     agent any 
 
@@ -67,6 +70,20 @@ pipeline {
             steps {
             sh 'bin/phpmetrics --report-html=app/build/phpmetrics.html --report-xml=app/build/phpmetrics.xml --report-violations=app/build/violations.xml src'
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'app/build', reportFiles: 'phpmetrics.html', reportName: 'Phpmetrics report', reportTitles: ''])
+            }
+        }
+        post {
+            success {
+              mail(from: emailFrom, 
+                   to: emailTo, 
+                   subject: "That build passed.",
+                   body: "Nothing to see here")
+            }
+            failure {
+              mail(from: emailFrom, 
+                   to: emailTo, 
+                   subject: "That build failed!", 
+                   body: "Nothing to see here")
             }
         }
         
