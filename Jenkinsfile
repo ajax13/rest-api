@@ -1,3 +1,5 @@
+#!/usr/bin/env groovy
+
 emailTo = "abir.test01@gmail.com"
 emailFrom = "abir.ibrahem@gmail.com"
 
