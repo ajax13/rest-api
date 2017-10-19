@@ -72,21 +72,24 @@ pipeline {
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'app/build', reportFiles: 'phpmetrics.html', reportName: 'Phpmetrics report', reportTitles: ''])
             }
         }
-        post {
-            success {
-              mail(from: emailFrom, 
-                   to: emailTo, 
-                   subject: "That build passed.",
-                   body: "Nothing to see here")
-            }
-            failure {
-              mail(from: emailFrom, 
-                   to: emailTo, 
-                   subject: "That build failed!", 
-                   body: "Nothing to see here")
+        stage('Send email notification') {
+            steps {
+                post {
+                    success {
+                      mail(from: emailFrom,
+                           to: emailTo,
+                           subject: "That build passed.",
+                           body: "Nothing to see here")
+                    }
+                    failure {
+                      mail(from: emailFrom,
+                           to: emailTo,
+                           subject: "That build failed!",
+                           body: "Nothing to see here")
+                    }
+                }
             }
         }
-        
         /** Muti Pipeline case */
         // If this is the master or develop branch being built then run some additional integration tests
         /*if (["master", "develop"].contains(env.BRANCH_NAME)) {
