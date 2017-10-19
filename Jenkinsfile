@@ -28,7 +28,7 @@ pipeline {
                     tools: [[$class: 'PHPUnitJunitHudsonTestType', pattern: 'app/build/logs/phpunit.xml']]
                 ])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'app/build/coverage', reportFiles: 'index.html', reportName: 'Coverage Coverage', reportTitles: ''])
-                /* BROKEN step([$class: 'CloverPublisher', cloverReportDir: 'build/coverage', cloverReportFileName: 'app/&build/logs/clover.xml']) */
+                step([$class: 'CloverPublisher', cloverReportDir: 'app/build/coverage', cloverReportFileName: 'app/build/logs/clover.xml'])
                 /* BROKEN step([$class: 'hudson.plugins.crap4j.Crap4JPublisher', reportPattern: 'app/build/logs/crap4j.xml', healthThreshold: '10']) */
             }
         }
